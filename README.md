@@ -76,7 +76,7 @@ Use SIWC for account pages, user-specific dashboards, saved records, and write a
 
 ## Diagnostic Commands
 
-- `npm run install:ci`: perform one bounded lockfile install
+- `npm run install:ci`: perform the one bounded lockfile install
 - `npm run dev`: start the Vite/Vinext development server
 - `npm run build`: build the deployable Sites artifact
 - `npm run start`: start the built Vinext application
