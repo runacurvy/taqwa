@@ -1,0 +1,5 @@
+import { getDb } from "@/db";
+import { inquiries } from "@/db/schema";
+import { z } from "zod";
+const schema = z.object({name:z.string().trim().min(2).max(150),email:z.string().email().max(254),location:z.string().trim().min(2).max(150),service:z.string().min(1).max(100),stage:z.string().min(1).max(100),description:z.string().trim().min(20).max(6000),budget:z.string().min(1).max(100),target:z.string().max(100),website:z.string().max(0)});
+export async function POST(request:Request){try{if(Number(request.headers.get("content-length"))>15000)return Response.json({error:"Please shorten your project description."},{status:413}); const data=schema.safeParse(await request.json());if(!data.success)return Response.json({error:"Please check your details and add at least 20 characters about your project."},{status:400}); const {website,...values}=data.data; await getDb().insert(inquiries).values({...values,id:crypto.randomUUID(),createdAt:new Date().toISOString()});return Response.json({ok:true});}catch{return Response.json({error:"Your inquiry could not be saved. Please try again."},{status:500});}}

@@ -1,0 +1,1 @@
+export default function robots(){return {rules:{userAgent:"*",allow:"/",disallow:"/api/"},sitemap:"https://taqwa-agency.amber-olive-8039.chatgpt.site/sitemap.xml"};}
