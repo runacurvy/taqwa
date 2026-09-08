@@ -1,1 +1,2 @@
-export { default } from "./site";
+import Home from "./site";
+export default Home;
