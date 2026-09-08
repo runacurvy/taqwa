@@ -68,3 +68,17 @@ p{font-size:var(--body-size);line-height:1.75;color:#52565e}
 @media(prefers-reduced-motion:reduce){.cursor-halo,.tap-pulse{display:none!important}.motion-ready{opacity:1;translate:none}.service-card,.resource-cover,.intention-panel,.button,.approach-word{transform:none!important;scale:1!important}.card-detail{animation:none!important}}
 @media(max-width:950px){.desktop-nav{display:none}.mobile-toggle{display:flex;background:none;border:0;padding:10px}.header{min-height:84px}.nav-end{margin-left:auto}}
 .approach-word>span{min-width:0;overflow-wrap:anywhere}.approach-word svg{flex-shrink:0}.field,.discovery,.contact-layout>div,.resource-item>div{min-width:0}.mobile-menu .menu-label{letter-spacing:.06em}
+
+/* Bilingual navigation and Arabic layouts */
+.language-switch{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:8px 12px;font-size:16px;white-space:nowrap}
+.arabic-site{font-family:Tahoma,'Geeza Pro','Noto Sans Arabic',Arial,sans-serif;font-size:clamp(18px,1.1rem + .2vw,20px);line-height:1.85}
+.arabic-site h1,.arabic-site h2,.arabic-site h3,.arabic-site .approach-word,.arabic-site .resource-cover b{font-family:inherit;letter-spacing:0;line-height:1.4}
+.arabic-site p{line-height:1.9}.arabic-site .eyebrow,.arabic-site small,.arabic-site .mono{letter-spacing:0;font-family:inherit}
+.arabic-site h1{font-size:clamp(2.5rem,5.5vw,6rem)}.arabic-site h2{font-size:clamp(2rem,4vw,4.5rem)}.arabic-site h3{font-size:clamp(1.45rem,2.4vw,2.4rem)}
+.arabic-site .approach-word{font-size:clamp(2.2rem,6vw,6rem);text-align:start}.arabic-site .service-card button{text-align:start}
+.arabic-site .resource-cover b{font-size:clamp(2rem,3vw,3.5rem)}.arabic-site .logo{letter-spacing:0}.arabic-site .logo small{font-size:12px}
+.arabic-site .hero-copy{padding-inline:0 2rem}.arabic-site .field input,.arabic-site .field textarea,.arabic-site .form-select{font:inherit;min-height:54px;width:100%}.arabic-site .form-select{white-space:normal}
+.arabic-site .founder-note p{gap:1rem}.arabic-site .value-row{text-align:start}.arabic-site .art-caption{text-align:start}
+.ar-mobile-menu{position:relative;z-index:40;background:#f6f3ee;padding:24px;display:flex;flex-direction:column;gap:12px;border-bottom:1px solid #ccc}.ar-mobile-menu a{font-size:26px;min-height:52px}
+@media(max-width:950px){.arabic-site .hero-copy{padding-inline:0}.arabic-site .header{gap:8px}.arabic-site .nav-end{gap:4px}.arabic-site .logo{font-size:30px}.arabic-site .hero h1{font-size:clamp(2.5rem,9.5vw,4.8rem)}.arabic-site .approach-word{font-size:clamp(2.1rem,8vw,4rem)}}
+@media(min-width:951px){.ar-mobile-menu{display:none}}

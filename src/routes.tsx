@@ -1,3 +1,5 @@
+import {RoutePath} from './language';
+import {ArabicPage,arabicTitles} from './site-ar';
 import Home,{Story,Services,ServicePage,Portfolio,Resources,Article,Contact,Privacy,Shell} from './site';
 export const routes:Record<string,{title:string,element:React.ReactNode}>={
  '/':{title:'You have the idea. Let’s build the business.',element:<Home/>},
@@ -14,4 +16,6 @@ export const routes:Record<string,{title:string,element:React.ReactNode}>={
  '/contact':{title:'Start a Project',element:<Contact/>},
  '/privacy':{title:'Privacy',element:<Privacy/>}
 };
+for(const [path,route] of Object.entries(routes)){route.element=<RoutePath.Provider value={path}>{route.element}</RoutePath.Provider>;}
+for(const [path,title] of Object.entries(arabicTitles)){routes['/ar'+(path==='/'?'':path)]={title,element:<ArabicPage path={path}/>};}
 export function resolveRoute(path:string){return routes[path.replace(/\/$/,'')||'/']??{title:'Page Not Found',element:<Shell><section className="page-hero"><h1>This page is not here.</h1><p>Let’s get you back to the beginning.</p><a className="button" href="/">Back to Taqwa</a></section></Shell>}}

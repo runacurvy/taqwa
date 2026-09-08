@@ -83,3 +83,17 @@ Set SITE_URL to the final domain during the build to generate canonical links an
 ## Current content status
 
 Case studies are still marked as being prepared. The three resource guides are readable. Do not invent client outcomes, testimonials, or downloadable products. No humans, faces, or silhouettes should be added.
+
+## Arabic version
+
+All 13 public pages have Fusha Arabic counterparts under `/ar`, with RTL layout, Arabic metadata and a language switch that preserves the current page. Both languages are prerendered. Set `SITE_URL` at build time for canonical and alternate-language links. Arabic form labels are translated while stable backend enum values are preserved. Arabic content currently lives in `src/site-ar.tsx`; English content lives in `src/site.tsx`. Both require code edits until a CMS is connected.
+
+## Resource administration: proposed next phase
+
+There is currently no admin dashboard, resource upload endpoint, or administrator login. Public resources are authored in code. Do not present a hidden URL or client-side password check as access control.
+
+For the Google-hosted version, the proposed implementation is Firebase Authentication for administrator sign-in, Firestore for resource records, and Cloud Storage for PDFs and cover images. Server endpoints must verify the Firebase ID token and an explicitly assigned admin role on every management request. Credentials and role assignment remain server-side. Database and storage rules must also prevent unauthorized writes and public access to drafts. Ordinary visitors need no login for published public resources.
+
+The dashboard should support: an English and Arabic title, summary and article body; category and format; cover image and alternative text; file upload; draft/published status; previews; editing and unpublishing. Use one stable resource ID for both translations. Permit publishing a language only when its required content is complete. Validate file type and size server-side, and store draft files privately. Only expose published metadata and permitted downloads through public queries. Existing static guides should be migrated without changing their URLs.
+
+Before implementation, configure the Firebase project, enable Authentication and file storage, and designate the initial administrator through trusted server administration. This phase is not included in the current Arabic update.
