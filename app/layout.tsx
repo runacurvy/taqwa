@@ -1,4 +1,0 @@
-import type { Metadata } from "next";
-import "./globals.css";
-export const metadata: Metadata = {title:{default:"Taqwa Agency | You have the idea. Let’s build the business.",template:"%s | Taqwa Agency"},metadataBase:new URL("https://taqwa-agency.amber-olive-8039.chatgpt.site"),openGraph:{type:"website",siteName:"Taqwa Agency",title:"You have the idea. Let’s build the business.",description:"Business launch, project management and digital transformation for Muslim founders worldwide."},description:"Business launch, project management and digital transformation for Muslim founders worldwide. Based in the United States and Egypt. Build with Taqwa.",icons:{icon:"/favicon.svg"}};
-export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){return <html lang="en"><body>{children}</body></html>}
