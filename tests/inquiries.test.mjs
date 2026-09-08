@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {submitInquiry} from '../server/inquiries.mjs';
+const sample={name:'Test Founder',email:'test@example.com',location:'Test City',service:'Business Launch',stage:'I only have the idea',description:'A sample business inquiry for validation testing.',budget:'I would like guidance',target:'Exploring',website:''};
+test('only valid inquiries reach storage',async()=>{let saved;const r=await submitInquiry(sample,async row=>{saved=row});assert.equal(r.status,200);assert.equal(saved.email,sample.email);assert.ok(saved.createdAt);assert.equal(saved.website,undefined);const bad=await submitInquiry({...sample,email:'invalid'},async()=>assert.fail('invalid data reached storage'));assert.equal(bad.status,400)});
+test('storage failure never shows a success receipt',async()=>{const r=await submitInquiry(sample,async()=>{throw Error('offline')});assert.equal(r.status,503);assert.equal(r.body.ok,undefined)});
+test('honeypot submissions are rejected',async()=>{const r=await submitInquiry({...sample,website:'spam'},async()=>assert.fail('spam reached storage'));assert.equal(r.status,400)});

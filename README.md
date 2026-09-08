@@ -1,93 +1,85 @@
-# vinext-starter
+# Taqwa Agency for Google AI Studio
 
-A clean full-stack starter running on [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and Drizzle support.
+A portable React + Vite website with a Node.js server, generated HTML for every route, larger responsive typography, and motion that respects reduced-motion preferences. The original Taqwa design, copy, image, pages, and interactive discovery form are preserved. There is no ChatGPT sign-in requirement in this application.
 
-## Prerequisites
+## Run
 
-- Node.js `>=22.13.0`
-- Linux with `flock`, `curl`, and GNU `timeout`
+Use Node.js 22.13 or later.
 
-## Sites Lifecycle
-
-The Sites lifecycle CLI runs the locked dependency install before returning this checkout. Edit the source under `app/`, then checkpoint when a coherent milestone is ready to inspect or share. The remote Sites builder runs `npm run build` against the pushed commit. Do not repeat install or build as a normal pre-checkpoint step.
-
-This starter does not use `wrangler.jsonc`.
-
-`install:ci` is intentionally a single, non-retrying `npm ci`. It refuses a concurrent install for the same project, consumes a matching image-seeded npm cache with `--prefer-offline` while retaining registry fallback for a missing cache object, otherwise downloads and verifies the complete vinext tarball recorded in `package-lock.json`, limits npm to one socket, and terminates a stalled install. `build` applies a short timeout. These helpers target Linux and use GNU `timeout`; they are not native macOS scripts.
-
-Scripts that need writable project-scoped home, npm, XDG, and temporary paths use `scripts/sites-env.sh`. The `dev` and `start` scripts honor the caller's runtime environment and keep Wrangler logs inside the checkout. The generated `.sites-runtime/` directory is disposable and ignored by Git.
-
-## Included Shape
-
-- edit site code under `app/`
-- `app/chatgpt-auth.ts` provides optional dispatch-owned ChatGPT sign-in helpers
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/index.ts` reads the D1 binding from the Cloudflare Worker environment
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-OpenAI workspace sites can read the current user's email from `oai-authenticated-user-email`.
-
-SIWC-authenticated workspace sites may also receive `oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty `name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by `oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
+```sh
+npm ci
+npm run dev
 ```
 
-## Optional Dispatch-Owned ChatGPT Sign-In
+The development server listens on port 3000 (or PORT) on all interfaces. In a hosted editor, use its forwarded preview URL. Do not open localhost on a different device.
 
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs optional or required ChatGPT sign-in:
+```sh
+npm run check
+npm test
+npm run build
+npm start
+```
 
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send anonymous visitors through Sign in with ChatGPT.
-- In a Server Component, start sign-in with `<a href={chatGPTSignInPath(returnTo)} target="_top">`. The auth helper module is server-only; do not import it into a Client Component.
-- Do not use `fetch`, XHR, a client-side router, or a framework link that can prefetch the sign-in route. SIWC must start as a top-level navigation.
-- Never request the AuthAPI authorization endpoint directly. The dispatch-owned `/signin-with-chatgpt` route must start the SIWC flow.
-- Use `chatGPTSignOutPath(returnTo)` for browser sign-out links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because they depend on per-request identity headers.
+The build prerenders all 13 routes and a 404 page. Production serves that HTML and hydrates it with React, keeping content available to crawlers and visitors before JavaScript loads. Navigation uses normal links, so direct URLs and browser back/forward work.
 
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the OAuth cookies, and identity header injection. Do not implement app routes for those reserved paths. Routes that do not import and call the helper remain anonymous-compatible.
+## Import into Google AI Studio
 
-SIWC establishes identity only; it does not prove workspace membership. Use the Sites hosting platform's access policy controls for workspace-wide restrictions, or enforce explicit server-side membership or allowlist checks.
+Google's documented route is Build mode → Add files (+) → Import from GitHub. Select the repository and the `ai-studio-readable-motion` branch if branch selection is available. If the importer only reads the default branch, first merge the migration pull request after reviewing it, or copy this branch into a separate repository. This branch deliberately replaces the old Sites-specific project structure; do not merge it into a deployment that still expects Vinext without changing that deployment too.
 
-Use SIWC for account pages, user-specific dashboards, saved records, and write actions tied to the current ChatGPT user. Leave public content anonymous.
+After import, paste the contents of AI_STUDIO_PROMPT.md into the builder. The project is prepared for AI Studio, but has not been opened or deployed inside the user's Google account.
 
-## Diagnostic Commands
+Official guide: https://ai.google.dev/gemini-api/docs/aistudio-build-mode
 
-- `npm run install:ci`: perform the one bounded lockfile install
-- `npm run dev`: start the Vite/Vinext development server
-- `npm run build`: build the deployable Sites artifact
-- `npm run start`: start the built Vinext application
-- `npm test`: build and verify the rendered development-preview metadata
-- `npm run db:generate`: generate Drizzle migrations after schema changes
+## Typography and interaction changes
 
-Use build commands for targeted diagnosis after a remote failure, not as part of the normal checkpoint path.
+- Body copy scales from 17px to 19px at the default browser font setting.
+- Buttons, navigation, form labels, resource links, and supporting text use approximately 16px.
+- Secondary metadata uses 13–15px; image captions use 12px.
+- Mobile resources use full-width covers and larger titles.
+- Tablet layouts provide more room for the approach sequence and service cards.
+- Cards reveal on scroll, tilt gently under a mouse pointer, and expand on tap.
+- A desktop-only cursor halo keeps the native cursor visible.
+- Tap feedback and pressed states confirm touch interaction.
+- Reduced-motion settings disable these effects. No motion is needed to access content.
 
-The timeout defaults can be overridden for a controlled canary with `SITES_INSTALL_TIMEOUT`, `SITES_INSTALL_KILL_AFTER`, `SITES_BUILD_TIMEOUT`, and `SITES_BUILD_KILL_AFTER`. A timeout fails the command; the helpers never retry an unchanged install or build.
+## Inquiry storage: setup required
 
-## Learn More
+The server validates project inquiries and can save them to Google Firestore through its REST API. This is a replacement for the original Cloudflare D1 backend, not a migration of existing inquiry records.
 
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+To enable production saving:
+
+1. Create or select a Google Cloud project and create a Firestore database in Native mode.
+2. Set FIRESTORE_PROJECT_ID on the server. FIRESTORE_DATABASE_ID defaults to `(default)`.
+3. Assign the Cloud Run service an identity with permission to create Firestore documents in that project. Prefer a scoped custom IAM role; `roles/datastore.user` is a broader predefined option.
+4. Keep browser access to the inquiries collection denied. The backend uses its service identity and IAM, so visitors do not need to sign in.
+5. Test a sample inquiry after deployment and verify it appears in Firestore before using the form for client leads.
+
+No key is bundled or exposed to the browser. On Cloud Run, the adapter gets a short-lived access token from the Google metadata service. AI Studio preview identity support must be checked in the actual account. If that environment does not provide the required identity, let AI Studio connect its provisioned Firestore instance to the same validated endpoint.
+
+For local database testing, run a Firestore emulator and set FIRESTORE_EMULATOR_HOST and FIRESTORE_PROJECT_ID. The adapter deliberately ignores the emulator setting in production.
+
+Without a configured and accessible database, form submission returns a visible error and never claims to have saved an inquiry. No email notifications or visitor account system are included.
+
+Firestore: https://firebase.google.com/docs/firestore/use-rest-api
+Service identity: https://docs.cloud.google.com/run/docs/securing/service-identity
+
+## Public deployment
+
+AI Studio can deploy to Cloud Run. A Dockerfile is also included. Set access to allow public visitors for the agency website. The Google project, deployment, service identity, and billing are managed in your Google account.
+
+Set SITE_URL to the final domain during the build to generate canonical links and sitemap.xml. Without it, no guessed canonical origin is emitted. Update this value and rebuild when moving domains.
+
+## Edit
+
+- `src/site.tsx`: page content and interactive UI.
+- `src/globals.css`: typography, layout, and responsive styles.
+- `src/motion.tsx`: pointer, touch, and scroll effects.
+- `src/routes.tsx`: route map and titles.
+- `public/architecture.webp`: original architectural image.
+- `server/inquiries.mjs`: validation and Firestore adapter.
+- `server/index.mjs`: API and static/development serving.
+- `scripts/prerender.mjs`: route HTML and metadata generation.
+
+## Current content status
+
+Case studies are still marked as being prepared. The three resource guides are readable. Do not invent client outcomes, testimonials, or downloadable products. No humans, faces, or silhouettes should be added.
