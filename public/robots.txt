@@ -1,0 +1,7 @@
+# Disable web crawlers & search engine indexing for admin paths
+User-agent: *
+Disallow: /admin
+Disallow: /resources/admin
+Disallow: /api/
+
+Sitemap: https://taqwa.agency/sitemap.xml

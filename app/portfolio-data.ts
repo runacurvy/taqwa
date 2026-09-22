@@ -1,332 +1,175 @@
 export interface PortfolioProject {
   id: string;
   client: string;
-  category: string;
-  categoryDisplay: string;
-  challenge: string;
-  solution: string;
-  fullCaseStudy: string[];
-  keyResults: string[];
-  toolsUsed: string[];
-  featured?: boolean;
+  category: string; // e.g. "HEALTHCARE", "PRIVATE-LABEL MANUFACTURING"
+  categoryDisplay: string; // e.g. "Healthcare", "Manufacturing"
+  headline: string; // Subtitle / headline in full project
+  summary: string; // Before hover card description
+  problem: string; // After hover problem
+  solution: string; // After hover solution
+  challenge: string; // Full project challenge text
+  fullSolution: string; // Full project solution text
+  outcome: string; // Full project outcome text
+  disciplines: string[]; // Disciplines list
 }
 
 export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
-  {
-    id: "daarul-quraan-islamic-school",
-    client: "Daarul Quraan Islamic School",
-    category: "ISLAMIC EDUCATION",
-    categoryDisplay: "Islamic Education",
-    challenge:
-      "A mission-led Islamic school needed clearer business structure, stronger parent-facing communication, and a modern digital foundation to support trust, enrollment, and daily operations.",
-    solution:
-      "We refined the school’s business direction, strengthened the brand communication, structured the website experience, and introduced digital systems to help the school operate with more clarity and professionalism.",
-    fullCaseStudy: [
-      "Daarul Quraan Islamic School carried a strong educational mission, but needed the structure and digital presence to communicate that mission with more confidence. The work focused on helping the school become easier for parents to understand, easier to trust, and easier to engage with.",
-      "As a business development partner, we supported the school beyond visuals. We helped clarify the offer, organize the communication, shape the website direction, and improve the digital foundation behind the parent experience. The goal was to help the school move from informal visibility into a more structured and professional education brand.",
-    ],
-    keyResults: [
-      "Clearer school positioning",
-      "Stronger parent-facing communication",
-      "Improved website and digital structure",
-      "Better foundation for enrollment and operations",
-    ],
-    toolsUsed: [
-      "Business Development",
-      "Website Strategy",
-      "Brand Communication",
-      "Digital Systems",
-    ],
-    featured: true,
-  },
   {
     id: "dr-asghar-endocrinology",
     client: "Dr. Asghar Endocrinology",
     category: "HEALTHCARE",
     categoryDisplay: "Healthcare",
-    challenge:
-      "An endocrinology practice needed a credible digital presence that communicated medical expertise, patient trust, and specialist care with clarity.",
-    solution:
-      "We developed the brand communication, website structure, service positioning, and patient journey messaging for a professional endocrinology brand.",
-    fullCaseStudy: [
-      "Dr. Asghar’s endocrinology project needed more than a website. The practice needed a clear digital identity that could communicate medical authority while still feeling accessible and patient-centered.",
-      "We shaped the positioning, clarified the service communication, and structured the website experience around patient trust, specialist expertise, and clarity. The result was a more polished healthcare presence that helped the practice communicate its value with professionalism and confidence.",
-    ],
-    keyResults: [
-      "Clear specialist positioning",
-      "Stronger patient trust messaging",
-      "Professional healthcare website direction",
-      "Improved service communication",
-    ],
-    toolsUsed: [
+    headline: "Building a credible digital presence for a specialist endocrinology practice.",
+    summary: "A specialist endocrinology practice needed a credible digital presence that communicated expertise, organised its services, and guided patients towards the right care.",
+    problem: "The practice needed to communicate its specialist expertise clearly while helping patients understand its services and next steps.",
+    solution: "We refined the brand communication, positioned the services, mapped the patient journey, and developed a clearer website experience.",
+    challenge: "The practice needed more than a visually polished website. Its specialist knowledge, services, and approach to patient care had to be translated into language that patients could understand and trust.\n\nThe website also needed a clearer structure that would help visitors identify the appropriate service and understand what to do next.",
+    fullSolution: "We refined the practice’s brand communication, clarified its specialist positioning, mapped the patient journey, and developed the website structure and content around the questions patients were most likely to have.\n\nThe website was designed to balance medical credibility with clear, accessible communication.",
+    outcome: "The practice gained a more credible and organised digital presence that communicated its expertise while making it easier for patients to understand the available services and seek the appropriate care.",
+    disciplines: [
       "Brand Communication",
-      "Website Strategy",
       "Service Positioning",
       "Patient Journey Mapping",
-    ],
-    featured: true,
+      "Website Strategy",
+      "Website Content",
+      "Website Development"
+    ]
   },
   {
     id: "kufi-factory",
     client: "Kufi Factory",
-    category: "ISLAMIC FASHION",
-    categoryDisplay: "Islamic Fashion",
-    challenge:
-      "An Islamic fashion brand needed clearer positioning, stronger product communication, and a more structured digital identity to support future growth.",
-    solution:
-      "We refined the business direction, clarified the brand message, and shaped the digital presence to help the brand present its products with confidence and commercial clarity.",
-    fullCaseStudy: [
-      "Kufi Factory had a valuable product concept but needed a stronger business and brand foundation. The challenge was to help the brand move from product idea into a clearer market position.",
-      "We worked on the brand direction, product communication, and digital presentation so the business could feel more organized, recognizable, and ready for growth. The focus was on building a Muslim-owned product brand with clearer identity, stronger messaging, and better customer understanding.",
-    ],
-    keyResults: [
-      "Clearer brand positioning",
-      "Improved product communication",
-      "More professional digital identity",
-      "Stronger foundation for online sales",
-    ],
-    toolsUsed: [
-      "Business Development",
-      "Brand Strategy",
-      "Product Positioning",
-      "Digital Identity",
-    ],
-    featured: true,
-  },
-  {
-    id: "abu-attar-company",
-    client: "Abu Attar Company",
-    category: "ISLAMIC LIFESTYLE",
-    categoryDisplay: "Islamic Lifestyle",
-    challenge:
-      "An Islamic lifestyle company needed a more refined brand identity and clearer product communication across its men’s products and Sunnah-inspired items.",
-    solution:
-      "We developed the brand direction, product positioning, packaging ideas, and customer communication style to create a cleaner and more premium brand experience.",
-    fullCaseStudy: [
-      "Abu Attar Company needed greater cohesion across its product range. The business had the foundation of an Islamic lifestyle brand, but needed clearer positioning and a more refined customer experience.",
-      "We supported the brand through business direction, product messaging, packaging concepts, and communication strategy. The goal was to help the company present its products in a way that felt trustworthy, intentional, and commercially polished while staying connected to its Islamic values.",
-    ],
-    keyResults: [
-      "More refined Islamic lifestyle positioning",
-      "Clearer product categories and messaging",
-      "Improved packaging direction",
-      "Stronger customer experience",
-    ],
-    toolsUsed: [
-      "Brand Strategy",
-      "Product Communication",
-      "Packaging Direction",
-      "Customer Experience",
-    ],
+    category: "PRIVATE-LABEL MANUFACTURING",
+    categoryDisplay: "Manufacturing",
+    headline: "Positioning a regional Kufi manufacturer for international private-label clients.",
+    summary: "A Kufi cap manufacturer operating in Egypt and Saudi Arabia needed clearer positioning for international brands seeking private-label production.",
+    problem: "An established manufacturer needed clearer positioning to attract international brands seeking reliable private-label Kufi production.",
+    solution: "We repositioned the business around its manufacturing capabilities and strengthened its communication for international B2B clients.",
+    challenge: "Kufi Factory had the manufacturing capability, production knowledge, and regional presence required to serve international clients, but its business was not positioned clearly for that market.\n\nProspective buyers needed to understand that the company was not simply selling finished caps. It could manufacture custom Kufi caps for businesses, retailers, and brands through private-label arrangements.",
+    fullSolution: "We refined the company’s business positioning around private-label manufacturing, clarified its ideal international customer, and strengthened the language used to communicate its production capabilities.\n\nWe also structured its digital messaging around the information international buyers need when evaluating a manufacturing partner.",
+    outcome: "Kufi Factory gained a clearer international-facing proposition that presented the company as a manufacturing partner rather than only a product seller.\n\nIts offer became easier for brands, retailers, and private-label buyers to understand and evaluate.",
+    disciplines: [
+      "Business Positioning",
+      "Private-Label Strategy",
+      "B2B Communication",
+      "International Market Positioning",
+      "Service Communication",
+      "Digital Discovery Strategy"
+    ]
   },
   {
     id: "golden-sand-consultancy",
     client: "Golden Sand Consultancy",
     category: "REAL ESTATE CONSULTANCY",
     categoryDisplay: "Real Estate",
-    challenge:
-      "A real estate consultancy needed a credible brand presence and clearer communication to position its services with trust and professionalism.",
-    solution:
-      "We created strategic brand messaging and business positioning to help the consultancy communicate its services clearly in a competitive real estate market.",
-    fullCaseStudy: [
-      "Golden Sand Consultancy needed to build trust quickly. In real estate, clarity and credibility are essential because clients are making major financial decisions and need confidence in who they are working with.",
-      "We supported the consultancy by refining its positioning, service communication, and brand messaging. The work helped create a clearer foundation for presenting the company as a serious, reliable, and professional real estate consultancy.",
-    ],
-    keyResults: [
-      "Clearer consultancy positioning",
-      "Stronger trust-based messaging",
-      "More professional service presentation",
-      "Improved market communication",
-    ],
-    toolsUsed: [
-      "Business Positioning",
-      "Brand Messaging",
-      "Service Strategy",
-      "Real Estate Communication",
-    ],
+    headline: "Taking a real estate consultancy from initial idea to a structured, launch-ready brand.",
+    summary: "A real estate idea needed to become a credible consultancy with a defined offer, professional identity, and clear path to launch.",
+    problem: "A real estate idea needed a defined offer, credible identity, and clear foundation for entering a competitive market.",
+    solution: "We developed the concept, refined the offer, shaped the brand identity, and created the communication required for launch.",
+    challenge: "The business began with an idea and industry knowledge, but it needed a clear concept, stronger service positioning, and a brand capable of establishing trust in a competitive real estate market.\n\nThe offer, communication, identity, and digital presence had to be developed as one connected business foundation.",
+    fullSolution: "We helped shape the initial idea into a structured real estate consultancy.\n\nThe work included business and brand ideation, offer refinement, service positioning, brand identity direction, website content, and launch communication.",
+    outcome: "Golden Sand Consultancy gained a cohesive business foundation, a clearer value proposition, and a professional brand presence prepared for launch.",
+    disciplines: [
+      "Business Ideation",
+      "Offer Refinement",
+      "Service Positioning",
+      "Brand Strategy",
+      "Brand Identity",
+      "Website Content",
+      "Launch Communication"
+    ]
   },
   {
     id: "halal-investment-company",
     client: "Halal Investment Company",
     category: "FINTECH",
     categoryDisplay: "Fintech",
-    challenge:
-      "A halal investment company needed clear launch communication for its app, including a stronger story for users, partners, and potential investors.",
-    solution:
-      "We supported the app launch with pitch deck development, brand communication, and strategic messaging rooted in clarity, trust, and halal investment principles.",
-    fullCaseStudy: [
-      "The halal investment company needed to communicate a serious financial product in a way that was clear, credible, and aligned with the expectations of Muslim users and investors. The challenge was to explain the platform’s value without losing the trust and ethical sensitivity required in the Islamic finance space.",
-      "We helped develop the pitch deck, app launch messaging, and brand communication. The focus was on making the company’s vision easier to understand for users, partners, and investors while keeping the message grounded in halal investment values.",
-    ],
-    keyResults: [
-      "Clearer app launch story",
-      "Stronger pitch deck structure",
-      "Improved investor and partner communication",
-      "More trustworthy halal finance messaging",
-    ],
-    toolsUsed: [
-      "Pitch Deck",
-      "Launch Strategy",
+    headline: "Creating a more cohesive brand, application experience, and investor story for a halal fintech platform.",
+    summary: "A halal investment platform needed stronger communication for its application, users, partners, and potential investors.",
+    problem: "A halal fintech platform needed more cohesive communication across its application, brand assets, and investor story.",
+    solution: "We refined the brand assets, supported the application interface, developed digital content, and created an investor pitch deck.",
+    challenge: "The company was developing a fintech application based on halal investment principles, but its brand communication, digital assets, interface, and investor story needed greater consistency.\n\nThe platform had to explain its purpose clearly to users while also presenting a credible commercial opportunity to partners and potential investors.",
+    fullSolution: "We refined the company’s brand communication and existing brand assets, supported the application’s user-interface design, and created social media assets that strengthened its visual consistency.\n\nWe also developed an investor pitch deck that organised the platform concept, business opportunity, market proposition, and investment story into a clearer presentation.",
+    outcome: "The company gained a more cohesive brand system, a stronger application experience, and a clearer investor-facing narrative for fundraising and partnership conversations.",
+    disciplines: [
       "Brand Communication",
-      "Fintech Positioning",
-    ],
+      "Brand Asset Refinement",
+      "Application UI Design",
+      "Digital Brand Assets",
+      "Social Media Assets",
+      "Investor Storytelling",
+      "Pitch Deck Development"
+    ]
   },
   {
     id: "pure-squeeze",
     client: "Pure Squeeze",
     category: "FOOD & BEVERAGE",
     categoryDisplay: "Food & Beverage",
-    challenge:
-      "A fresh juice concept needed to become a launch-ready business with clear products, packaging, ordering, payment, and customer communication.",
-    solution:
-      "We developed the brand direction, product menu, bilingual copy, label messaging, website structure, WhatsApp order flow, and preorder-based launch communication.",
-    fullCaseStudy: [
-      "Pure Squeeze needed to move from idea into execution. The business required more than a nice logo or menu. It needed a clear customer journey, defined products, practical ordering, payment instructions, bilingual communication, and packaging that could support a real launch.",
-      "We built the launch foundation around product clarity, customer convenience, and simple operations. The work included menu development, label copy, English and Arabic messaging, website structure, WhatsApp ordering, and preorder communication. The result was a food and beverage brand with a practical structure for selling directly to customers.",
-    ],
-    keyResults: [
-      "Launch-ready product menu",
-      "Clear WhatsApp ordering journey",
-      "Bilingual customer communication",
-      "Packaging and label direction created",
-    ],
-    toolsUsed: [
+    headline: "Building a cold-pressed juice concept into an operating consumer brand in Cairo.",
+    summary: "A cold-pressed juice concept needed to become a functioning consumer brand with clear products, packaging, ordering, and launch operations.",
+    problem: "A cold-pressed juice concept needed products, packaging, suppliers, pricing, ordering systems, and a practical launch model.",
+    solution: "We developed the business from idea to launch, creating its brand, products, packaging, website, customer journey, and operating structure.",
+    challenge: "The concept began with a commitment to producing real, cold-pressed juice without added sugar, water, concentrates, or preservatives.\n\nTurning that idea into an operating business required product development, pricing, packaging, supplier sourcing, brand communication, digital ordering, and a production model that could work at a small-business level.",
+    fullSolution: "We developed Pure Squeeze from initial concept to launch.\n\nThis included the business and brand direction, product menu, product positioning, bilingual communication, packaging selection, packaging-resource sourcing, label messaging, pricing structure, website, and WhatsApp ordering journey.\n\nWe also structured the preorder and production model around scheduled juicing and delivery days.",
+    outcome: "Pure Squeeze became a functioning Cairo-based consumer brand with defined products, a clear customer promise, established packaging, and an integrated journey from discovery to order and delivery.",
+    disciplines: [
+      "Business Development",
+      "Product Architecture",
       "Brand Strategy",
-      "Website Structure",
-      "Packaging Copy",
-      "Customer Journey",
-      "WhatsApp Sales Flow",
-    ],
-  },
-  {
-    id: "leverage-ai-solutions",
-    client: "Leverage AI Solutions",
-    category: "AI SERVICES",
-    categoryDisplay: "AI Services",
-    challenge:
-      "Women wanted to use AI in their businesses but lacked the structure, workflows, and practical setup to make AI useful in daily operations.",
-    solution:
-      "We built the brand strategy, offer structure, service positioning, and communication framework for an AI solutions company focused on practical business implementation.",
-    fullCaseStudy: [
-      "Leverage AI Solutions was created to help women move beyond scattered prompts and use AI as a real business support system. The challenge was to position the brand clearly without making it feel like another trend-based AI offer.",
-      "We developed the business direction, service structure, offer categories, brand messaging, and communication framework. The result was a more focused AI services brand built around implementation, workflows, and helping women use technology to work with more clarity and control.",
-    ],
-    keyResults: [
-      "Clear AI service positioning",
-      "Defined offer structure",
-      "Stronger business communication",
-      "Practical implementation-focused messaging",
-    ],
-    toolsUsed: [
-      "Offer Development",
-      "AI Strategy",
-      "Workflow Planning",
-      "Brand Communication",
-    ],
-  },
-  {
-    id: "baytul-muhaajirun",
-    client: "Baytul Muhaajirun",
-    category: "SOCIAL PLATFORM",
-    categoryDisplay: "Social Platform",
-    challenge:
-      "Women making hijrah needed trusted resources, suppliers, contacts, and business opportunities in Egypt, but the information was scattered and difficult to organize.",
-    solution:
-      "We designed the platform concept, ecosystem structure, resource model, and business direction for a community-centered hub supporting Muslim women with practical hijrah and business resources.",
-    fullCaseStudy: [
-      "Baytul Muhaajirun was developed to solve a real information and access problem for Muslim women navigating hijrah and business in Egypt. The challenge was not simply building a community, but organizing scattered knowledge into a useful platform model.",
-      "We structured the concept around resources, supplier access, community support, and business opportunity mapping. The work helped turn a broad idea into a clearer platform direction with a practical support model for women who needed trustworthy information and grounded help.",
-    ],
-    keyResults: [
-      "Clear platform concept",
-      "Organized resource model",
-      "Stronger community direction",
-      "Practical support structure for women in Egypt",
-    ],
-    toolsUsed: [
-      "Platform Strategy",
-      "Community Design",
-      "Resource Mapping",
-      "Business Model Planning",
-    ],
-  },
-  {
-    id: "dream-plan-fund-build",
-    client: "Dream Plan Fund Build",
-    category: "EDUCATION",
-    categoryDisplay: "Education",
-    challenge:
-      "Women preparing for hijrah often felt overwhelmed, financially unclear, and unsure how to turn their desire into a realistic plan.",
-    solution:
-      "We created a four-part orientation framework to help women clarify their dream, organize their plan, understand funding, and prepare to build with more confidence.",
-    fullCaseStudy: [
-      "Dream Plan Fund Build was created as a grounding orientation experience for Muslim women preparing for hijrah. The challenge was that many women did not need more noise or pressure. They needed calm, clarity, and a simple structure to understand what the journey would require.",
-      "We developed the framework around four core stages: dream, plan, fund, and build. The result was an educational product that helps women organize their thinking, prepare financially, and approach hijrah with more responsibility and direction.",
-    ],
-    keyResults: [
-      "Clear four-part educational framework",
-      "Stronger hijrah planning structure",
-      "Improved learner clarity",
-      "Foundation for digital product expansion",
-    ],
-    toolsUsed: [
-      "Curriculum Strategy",
-      "Content Planning",
-      "Educational Framework",
-      "Digital Product Development",
-    ],
+      "Packaging Development",
+      "Supplier Sourcing",
+      "Pricing",
+      "Bilingual Communication",
+      "Website Development",
+      "Customer Journey Design",
+      "Launch Operations"
+    ]
   },
   {
     id: "eden-afrique",
     client: "Eden Afrique",
-    category: "LIFESTYLE BRAND",
-    categoryDisplay: "Lifestyle Brand",
-    challenge:
-      "An African-inspired lifestyle concept needed clearer identity, business direction, and positioning to become a refined commercial brand.",
-    solution:
-      "We developed the brand concept, positioning, and business direction to shape Eden Afrique into a thoughtful lifestyle brand with room for future product, retail, and digital expansion.",
-    fullCaseStudy: [
-      "Eden Afrique was shaped as an African-inspired lifestyle brand with potential across products, retail, beauty, home, and digital growth. The challenge was to give the idea a clearer commercial direction without losing the cultural richness behind it.",
-      "We worked on concept development, positioning, and business direction. The goal was to create a foundation for a brand that could grow intentionally, communicate beauty and refinement, and develop into a recognizable lifestyle business.",
-    ],
-    keyResults: [
-      "Clearer lifestyle brand concept",
-      "Stronger commercial positioning",
-      "Defined expansion potential",
-      "More refined brand direction",
-    ],
-    toolsUsed: [
-      "Brand Strategy",
-      "Business Direction",
-      "Lifestyle Positioning",
-      "Concept Development",
-    ],
+    category: "RETAIL & LIFESTYLE",
+    categoryDisplay: "Retail & Lifestyle",
+    headline: "Transforming an African-inspired lifestyle concept into a complete physical retail space.",
+    summary: "An African-inspired lifestyle concept needed to be transformed from an empty physical space into a complete retail experience.",
+    problem: "An empty retail space and an African-inspired concept needed to become a complete physical store and customer experience.",
+    solution: "We coordinated the concept, interior direction, renovation, product sourcing, suppliers, packaging, and retail launch.",
+    challenge: "Eden Afrique began as an idea for a physical lifestyle store inspired by African products, design, and culture.\n\nThe project required more than a brand identity. The space needed to be planned and renovated, while products, suppliers, fixtures, packaging, and the overall customer experience had to be brought together before the business could open.",
+    fullSolution: "We helped develop the business concept and translate it into a physical retail environment.\n\nOur contribution included positioning, interior design direction, renovation coordination, supplier research, product sourcing, fixture sourcing, packaging decisions, and retail launch preparation.",
+    outcome: "The project moved from an empty location and broad concept to a completed physical store in which the space, products, presentation, and brand worked together as one customer experience.",
+    disciplines: [
+      "Business Concept Development",
+      "Retail Positioning",
+      "Interior Design Direction",
+      "Renovation Coordination",
+      "Supplier Sourcing",
+      "Product Sourcing",
+      "Fixture Sourcing",
+      "Packaging Selection",
+      "Retail Experience",
+      "Launch Coordination"
+    ]
   },
   {
     id: "zahra-layaali",
     client: "Zahra Layaali",
     category: "LUXURY JEWELRY",
     categoryDisplay: "Luxury Jewelry",
-    challenge:
-      "A luxury jewelry brand needed to be built from scratch with a refined identity, clear positioning, and a premium customer experience.",
-    solution:
-      "We developed the brand concept, naming direction, positioning, visual identity direction, product communication, and launch foundation.",
-    fullCaseStudy: [
-      "Zahra Layaali was built from the ground up as a luxury jewelry brand. The challenge was to create a brand that felt elegant, premium, and trustworthy while giving it enough structure to move from concept into a real commercial identity.",
-      "We shaped the brand concept, positioning, visual direction, product communication, and launch foundation. The work focused on building a refined Muslim-owned luxury brand with strong emotional appeal, clear market direction, and a premium customer experience.",
-    ],
-    keyResults: [
-      "Luxury brand built from scratch",
-      "Clear positioning and identity",
-      "Premium product communication",
-      "Launch foundation created",
-    ],
-    toolsUsed: [
-      "Brand Strategy",
-      "Naming Direction",
-      "Visual Identity",
-      "Product Communication",
-      "Launch Planning",
-    ],
-  },
+    headline: "Developing the foundation and production pathway for a luxury jewelry brand.",
+    summary: "A luxury jewelry idea needed a defined commercial concept, premium positioning, and the right production partner to bring its designs into reality.",
+    problem: "A luxury jewelry idea needed stronger positioning, product direction, and the right manufacturer to bring it into reality.",
+    solution: "We refined the business concept, shaped its luxury position, and sourced a production partner capable of developing its jewelry.",
+    challenge: "The vision was to create a refined jewelry brand capable of offering distinctive, world-class pieces.\n\nTo move forward, the idea needed a clearer business direction, a defined luxury position, and access to a supplier with the technical ability to translate the creative vision into high-quality jewelry.",
+    fullSolution: "We developed the business concept, refined the brand’s luxury positioning, and shaped the foundation for its product and customer experience.\n\nWe also researched and sourced a suitable jewelry production partner capable of developing custom pieces to the required standard.",
+    outcome: "The original idea became a defined luxury brand concept with a clearer position, product direction, and practical production pathway.",
+    disciplines: [
+      "Business Ideation",
+      "Luxury Brand Positioning",
+      "Product Direction",
+      "Supplier Research",
+      "Manufacturer Sourcing",
+      "Product Development Coordination",
+      "Launch Foundation"
+    ]
+  }
 ];

@@ -3,16 +3,27 @@
 import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, type Variants } from "motion/react";
-import { ArrowUpRight, Plus, X, Check } from "lucide-react";
+import { ArrowUpRight, Plus, X, ArrowLeft } from "lucide-react";
 import { PORTFOLIO_PROJECTS, PortfolioProject } from "./portfolio-data";
 
 const CARD_TONES = [
-  "bg-[#e7edff] text-[#1c1e21]", // soft blue
-  "bg-[#e8e9e3] text-[#1c1e21]", // soft stone gray
-  "bg-[#f2ede4] text-[#1c1e21]", // warm architectural paper
-  "bg-[#e7f3a8] text-[#1c1e21]", // citron lime
-  "bg-[#edeef0] text-[#1c1e21]", // cool slate
-  "bg-[#e4ebf5] text-[#1c1e21]", // sky tint
+  "bg-[#f0f4ff] text-[#1c1e21] border-[#d8e2ff]", // soft blue
+  "bg-[#f5f6f2] text-[#1c1e21] border-[#e2e5dc]", // soft architectural stone
+  "bg-[#fcfaf4] text-[#1c1e21] border-[#e8e4d8]", // warm paper
+  "bg-[#f7fbdf] text-[#1c1e21] border-[#dce889]", // citron lime
+  "bg-[#f1f3f5] text-[#1c1e21] border-[#dadde1]", // cool slate
+  "bg-[#f0f7f7] text-[#1c1e21] border-[#d2e5e5]", // soft mint/teal
+];
+
+const FILTER_CATEGORIES = [
+  "All",
+  "Healthcare",
+  "Manufacturing",
+  "Real Estate",
+  "Fintech",
+  "Food & Beverage",
+  "Retail & Lifestyle",
+  "Luxury Jewelry",
 ];
 
 const gridContainerVariants: Variants = {
@@ -20,14 +31,14 @@ const gridContainerVariants: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.04,
+      staggerChildren: 0.05,
       delayChildren: 0.02,
     },
   },
 };
 
 const cardMotionVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.96, y: 12 },
+  hidden: { opacity: 0, scale: 0.96, y: 14 },
   visible: {
     opacity: 1,
     scale: 1,
@@ -47,110 +58,85 @@ const cardMotionVariants: Variants = {
   },
 };
 
-interface PortfolioShowcaseProps {
-  initialCategory?: string;
-  limit?: number;
-  showFilters?: boolean;
-  title?: string;
-  subtitle?: string;
-}
-
-export function PortfolioShowcase({
-  initialCategory = "All",
-  limit,
-  showFilters = true,
-  title = "Selected Client Work",
-  subtitle = "Case studies in business architecture, brand communication, and digital systems.",
-}: PortfolioShowcaseProps) {
-  const [activeCategory, setActiveCategory] = useState<string>(initialCategory);
+export function PortfolioShowcase() {
+  const [activeCategory, setActiveCategory] = useState<string>("All");
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
 
-  const categories = useMemo(() => {
-    const unique = Array.from(new Set(PORTFOLIO_PROJECTS.map((p) => p.categoryDisplay)));
-    return ["All", ...unique];
-  }, []);
-
   const filteredProjects = useMemo(() => {
-    let list = PORTFOLIO_PROJECTS;
-    if (activeCategory !== "All") {
-      list = list.filter((p) => p.categoryDisplay === activeCategory);
-    }
-    if (limit) {
-      list = list.slice(0, limit);
-    }
-    return list;
-  }, [activeCategory, limit]);
+    if (activeCategory === "All") return PORTFOLIO_PROJECTS;
+    return PORTFOLIO_PROJECTS.filter((p) => p.categoryDisplay === activeCategory);
+  }, [activeCategory]);
 
   return (
     <section
       className="portfolio-showcase-section"
-      id="case-studies"
+      id="selected-projects"
       style={{
-        paddingTop: "40px",
-        paddingBottom: "80px",
+        padding: "60px 4.5% 90px",
         width: "100%",
+        maxWidth: "1350px",
+        margin: "0 auto",
       }}
     >
-      <div className="section-intro" style={{ marginBottom: "35px" }}>
-        <div className="eyebrow" style={{ margin: 0 }}>
-          {PORTFOLIO_PROJECTS.length} VERIFIED CASE STUDIES
+      {/* Intro Header */}
+      <div className="section-intro" style={{ marginBottom: "40px" }}>
+        <div className="eyebrow" style={{ margin: 0, color: "#819808", fontWeight: 700 }}>
+          SELECTED PROJECTS
         </div>
-        <h2 style={{ maxWidth: "850px", fontSize: "clamp(2rem, 3.5vw, 3.4rem)", lineHeight: 1.1 }}>
-          {subtitle}
+        <h2 style={{ maxWidth: "980px", fontSize: "clamp(2rem, 3.6vw, 3.5rem)", lineHeight: 1.12, margin: "16px 0 0" }}>
+          Work across business architecture, brand communication, digital systems, sourcing, product development, and launch.
         </h2>
       </div>
 
       {/* Category Filter Bar */}
-      {showFilters && (
-        <div
-          className="filters"
-          role="tablist"
-          aria-label="Filter case studies by category"
-          style={{
-            marginBottom: "35px",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "8px",
-          }}
-        >
-          {categories.map((cat) => {
-            const isSelected = activeCategory === cat;
-            const count =
-              cat === "All"
-                ? PORTFOLIO_PROJECTS.length
-                : PORTFOLIO_PROJECTS.filter((p) => p.categoryDisplay === cat).length;
+      <div
+        className="filters"
+        role="tablist"
+        aria-label="Filter selected projects"
+        style={{
+          marginBottom: "40px",
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "8px",
+        }}
+      >
+        {FILTER_CATEGORIES.map((cat) => {
+          const isSelected = activeCategory === cat;
+          const count =
+            cat === "All"
+              ? PORTFOLIO_PROJECTS.length
+              : PORTFOLIO_PROJECTS.filter((p) => p.categoryDisplay === cat).length;
 
-            return (
-              <button
-                key={cat}
-                type="button"
-                role="tab"
-                aria-selected={isSelected}
-                onClick={() => setActiveCategory(cat)}
-                className={isSelected ? "selected" : ""}
+          return (
+            <button
+              key={cat}
+              type="button"
+              role="tab"
+              aria-selected={isSelected}
+              onClick={() => setActiveCategory(cat)}
+              className={isSelected ? "selected" : ""}
+              style={{
+                transition: "all 0.2s ease",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                cursor: "pointer",
+              }}
+            >
+              <span>{cat}</span>
+              <span
                 style={{
-                  transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  cursor: "pointer",
+                  fontSize: "11px",
+                  opacity: isSelected ? 0.95 : 0.65,
+                  fontFamily: "monospace",
                 }}
               >
-                <span>{cat}</span>
-                <span
-                  style={{
-                    fontSize: "11px",
-                    opacity: isSelected ? 0.95 : 0.6,
-                    fontFamily: "monospace",
-                  }}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      )}
+                {count}
+              </span>
+            </button>
+          );
+        })}
+      </div>
 
       {/* Grid of Portfolio Cards */}
       <motion.div
@@ -158,7 +144,7 @@ export function PortfolioShowcase({
         variants={gridContainerVariants}
         initial="hidden"
         animate="visible"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         <AnimatePresence mode="popLayout">
           {filteredProjects.map((project, index) => (
@@ -173,10 +159,10 @@ export function PortfolioShowcase({
         </AnimatePresence>
       </motion.div>
 
-      {/* Case Study Detail Modal */}
+      {/* Case Study Full Detail Modal */}
       <AnimatePresence>
         {selectedProject && (
-          <CaseStudyModal
+          <FullProjectModal
             project={selectedProject}
             onClose={() => setSelectedProject(null)}
           />
@@ -206,8 +192,8 @@ function PortfolioCard({ project, index, toneClass, onSelect }: CardProps) {
       transition={{
         layout: { type: "spring", stiffness: 350, damping: 30 },
       }}
-      className={`relative rounded-[5px] overflow-hidden cursor-pointer ${toneClass}`}
-      style={{ minHeight: "390px" }}
+      className={`relative rounded-[8px] border overflow-hidden cursor-pointer transition-shadow ${toneClass}`}
+      style={{ minHeight: "380px" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsHovered(true)}
@@ -221,18 +207,18 @@ function PortfolioCard({ project, index, toneClass, onSelect }: CardProps) {
           onSelect();
         }
       }}
-      aria-label={`View case study for ${project.client}`}
+      aria-label={`View project details for ${project.client}`}
     >
-      {/* Resting State: Bright, clean architectural card */}
+      {/* BEFORE HOVER STATE */}
       <div className="p-7 md:p-8 flex flex-col justify-between h-full">
         <div>
           <div className="card-meta flex justify-between items-center text-xs font-mono">
             <span style={{ fontFamily: "monospace", letterSpacing: "0.08em" }}>
-              {String(index + 1).padStart(2, "0")}
+              0{index + 1}
             </span>
             <span
-              className="uppercase tracking-wider"
-              style={{ fontSize: "11px", letterSpacing: "0.08em" }}
+              className="uppercase tracking-wider font-semibold"
+              style={{ fontSize: "11px", letterSpacing: "0.08em", color: "#819808" }}
             >
               {project.category}
             </span>
@@ -241,20 +227,21 @@ function PortfolioCard({ project, index, toneClass, onSelect }: CardProps) {
           <h3
             style={{
               fontSize: "clamp(1.5rem, 2.1vw, 2.2rem)",
-              margin: "28px 0 14px",
+              margin: "24px 0 14px",
               lineHeight: 1.15,
               letterSpacing: "-0.04em",
-              fontWeight: 500,
+              fontWeight: 600,
+              color: "#1c1e21",
             }}
           >
             {project.client}
           </h3>
 
           <p
-            className="text-sm line-clamp-3"
-            style={{ color: "rgba(28, 30, 33, 0.78)", lineHeight: 1.6 }}
+            className="text-sm line-clamp-4"
+            style={{ color: "#4c4f56", lineHeight: 1.6 }}
           >
-            {project.challenge}
+            {project.summary}
           </p>
         </div>
 
@@ -264,56 +251,60 @@ function PortfolioCard({ project, index, toneClass, onSelect }: CardProps) {
             marginTop: "28px",
             paddingTop: "16px",
             borderTop: "1px solid rgba(28, 30, 33, 0.12)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          <span className="font-mono text-xs tracking-wider uppercase font-medium">
-            Explore Case Study
+          <span className="font-mono text-xs tracking-wider uppercase font-bold" style={{ color: "#1c1e21" }}>
+            EXPLORE PROJECT
           </span>
           <span
             style={{
-              width: "28px",
-              height: "28px",
+              width: "30px",
+              height: "30px",
               borderRadius: "50%",
-              border: "1px solid currentColor",
+              background: "#1c1e21",
+              color: "#ffffff",
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <Plus size={15} />
+            <Plus size={16} />
           </span>
         </div>
       </div>
 
-      {/* Hover State: Sleek dark mode overlay (bg-black) */}
+      {/* AFTER HOVER STATE (Dark Architectural Overlay) */}
       <motion.div
         initial={false}
         animate={{
           opacity: isHovered ? 1 : 0,
-          scale: isHovered ? 1 : 0.96,
+          scale: isHovered ? 1 : 0.97,
         }}
-        transition={{ duration: 0.22, ease: "easeOut" }}
-        className={`absolute inset-0 bg-black text-white p-7 md:p-8 flex flex-col justify-between z-10 ${
+        transition={{ duration: 0.2, ease: "easeOut" }}
+        className={`absolute inset-0 bg-[#16181b] text-white p-7 md:p-8 flex flex-col justify-between z-10 ${
           isHovered ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >
-        <div className="flex justify-between items-center font-mono text-[11px] text-[#9ca3af] tracking-wider uppercase">
-          <span>{String(index + 1).padStart(2, "0")}</span>
-          <span style={{ color: "#e7f3a8" }}>{project.category}</span>
+        <div className="flex justify-between items-center font-mono text-[11px] text-[#a0a4ab] tracking-wider uppercase">
+          <span>0{index + 1}</span>
+          <span style={{ color: "#f0f7c2", fontWeight: 700 }}>{project.category}</span>
         </div>
 
         <div className="my-auto space-y-4 py-2">
           <div>
-            <span className="font-mono text-[10px] tracking-widest text-[#9ca3af] uppercase block mb-1 font-semibold">
+            <span className="font-mono text-[10.5px] tracking-widest text-[#a0a4ab] uppercase block mb-1 font-bold">
               THE PROBLEM
             </span>
             <p className="text-xs md:text-sm text-white/90 leading-relaxed line-clamp-3">
-              {project.challenge}
+              {project.problem}
             </p>
           </div>
 
           <div>
-            <span className="font-mono text-[10px] tracking-widest text-[#e7f3a8] uppercase block mb-1 font-semibold">
+            <span className="font-mono text-[10.5px] tracking-widest text-[#f0f7c2] uppercase block mb-1 font-bold">
               OUR SOLUTION
             </span>
             <p className="text-xs md:text-sm text-white/90 leading-relaxed line-clamp-3">
@@ -323,27 +314,28 @@ function PortfolioCard({ project, index, toneClass, onSelect }: CardProps) {
         </div>
 
         <div
-          className="flex items-center justify-between pt-3 text-xs font-medium tracking-wide"
+          className="flex items-center justify-between pt-3 text-xs font-semibold tracking-wide"
           style={{
-            borderTop: "1px solid #272a2e",
-            color: "#e7f3a8",
+            borderTop: "1px solid #2d3137",
+            color: "#f0f7c2",
           }}
         >
           <span className="font-mono text-[11px] tracking-wider uppercase">
-            Click For Full Details
+            VIEW FULL PROJECT
           </span>
           <span
             style={{
-              width: "28px",
-              height: "28px",
+              width: "30px",
+              height: "30px",
               borderRadius: "50%",
-              border: "1px solid #e7f3a8",
+              background: "#f0f7c2",
+              color: "#1c1e21",
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <ArrowUpRight size={15} />
+            <ArrowUpRight size={16} />
           </span>
         </div>
       </motion.div>
@@ -351,14 +343,13 @@ function PortfolioCard({ project, index, toneClass, onSelect }: CardProps) {
   );
 }
 
-function CaseStudyModal({
+function FullProjectModal({
   project,
   onClose,
 }: {
   project: PortfolioProject;
   onClose: () => void;
 }) {
-  // Close on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -367,7 +358,6 @@ function CaseStudyModal({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
-  // Prevent background body scroll when open
   useEffect(() => {
     const originalStyle = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -381,7 +371,7 @@ function CaseStudyModal({
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8"
       role="dialog"
       aria-modal="true"
-      aria-labelledby="case-study-title"
+      aria-labelledby="full-project-title"
     >
       {/* Backdrop */}
       <motion.div
@@ -390,180 +380,179 @@ function CaseStudyModal({
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
         onClick={onClose}
-        className="fixed inset-0 bg-black/70 backdrop-blur-xs"
+        className="fixed inset-0 bg-black/75 backdrop-blur-xs"
       />
 
-      {/* Modal Dialog Card */}
+      {/* Modal Card */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
-        className="relative w-full max-w-3xl max-h-[88vh] bg-[#f8f8f4] text-[#1c1e21] rounded-md shadow-2xl overflow-y-auto border border-[#d9dad5] p-6 sm:p-10 z-10"
+        className="relative w-full max-w-4xl max-h-[90vh] bg-[#fcfcf9] text-[#1c1e21] rounded-lg shadow-2xl overflow-y-auto border border-[#dcded6] p-6 sm:p-12 z-10"
       >
         {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close case study modal"
-          className="absolute top-5 right-5 w-9 h-9 rounded-full bg-[#eeeee8] hover:bg-[#d9dad5] text-[#1c1e21] flex items-center justify-center transition-colors cursor-pointer"
+          aria-label="Close full project view"
+          className="absolute top-6 right-6 w-10 h-10 rounded-full bg-[#f0f2eb] hover:bg-[#e2e5dc] text-[#1c1e21] flex items-center justify-center transition-colors cursor-pointer"
         >
-          <X size={18} />
+          <X size={20} />
         </button>
 
         {/* Modal Header */}
-        <div className="mb-6 pr-10">
-          <div className="eyebrow" style={{ color: "var(--blue)", marginBottom: "12px" }}>
-            {project.category} · CASE STUDY
-          </div>
-          <h2
-            id="case-study-title"
+        <div className="mb-8 pr-12">
+          <span
+            className="font-mono text-xs font-bold tracking-widest uppercase block mb-2"
+            style={{ color: "#819808" }}
+          >
+            {project.category}
+          </span>
+          <h1
+            id="full-project-title"
             style={{
-              fontSize: "clamp(2rem, 3.8vw, 3.2rem)",
+              fontSize: "clamp(2.2rem, 4vw, 3.5rem)",
               lineHeight: 1.08,
               letterSpacing: "-0.045em",
-              fontWeight: 500,
+              fontWeight: 600,
+              color: "#1c1e21",
+              marginBottom: "16px",
             }}
           >
             {project.client}
-          </h2>
+          </h1>
+          <p style={{ fontSize: "19px", color: "#4c5058", lineHeight: 1.5, fontWeight: 500, maxWidth: "780px" }}>
+            {project.headline}
+          </p>
         </div>
 
-        {/* Problem & Solution Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <div
+        {/* Challenge Section */}
+        <div className="mb-8 p-6 bg-[#f4f5ee] rounded-md border border-[#e1e4da]">
+          <h3
             style={{
-              background: "#eeeee8",
-              padding: "22px",
-              borderRadius: "5px",
+              fontSize: "13px",
+              fontFamily: "monospace",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "#819808",
+              fontWeight: 700,
+              marginBottom: "12px",
             }}
           >
-            <span
-              className="font-mono text-[11px] tracking-wider text-[#606269] uppercase block mb-2 font-semibold"
-            >
-              THE CHALLENGE
-            </span>
-            <p style={{ fontSize: "14.5px", lineHeight: 1.65, color: "#1c1e21" }}>
-              {project.challenge}
-            </p>
-          </div>
-
-          <div
-            style={{
-              background: "#e7edff",
-              padding: "22px",
-              borderRadius: "5px",
-            }}
-          >
-            <span
-              className="font-mono text-[11px] tracking-wider text-[#2448ed] uppercase block mb-2 font-semibold"
-            >
-              THE SOLUTION
-            </span>
-            <p style={{ fontSize: "14.5px", lineHeight: 1.65, color: "#1c1e21" }}>
-              {project.solution}
-            </p>
-          </div>
-        </div>
-
-        {/* Full Case Study Narrative */}
-        <div className="mb-8">
-          <span
-            className="font-mono text-[11px] tracking-wider text-[#606269] uppercase block mb-3 font-semibold"
-          >
-            FULL CASE STUDY
-          </span>
-          <div className="space-y-4">
-            {project.fullCaseStudy.map((paragraph, idx) => (
-              <p
-                key={idx}
-                style={{
-                  fontSize: "16px",
-                  lineHeight: 1.75,
-                  color: "#383a3f",
-                }}
-              >
+            The Challenge
+          </h3>
+          <div className="space-y-3">
+            {project.challenge.split("\n\n").map((paragraph, idx) => (
+              <p key={idx} style={{ fontSize: "16px", lineHeight: 1.7, color: "#2c2f35" }}>
                 {paragraph}
               </p>
             ))}
           </div>
         </div>
 
-        {/* Key Results */}
-        <div
-          className="mb-8 p-6 bg-white rounded-[5px]"
-          style={{ border: "1px solid #d9dad5" }}
-        >
-          <span
-            className="font-mono text-[11px] tracking-wider text-[#2448ed] uppercase block mb-4 font-semibold"
+        {/* Solution Section */}
+        <div className="mb-8 p-6 bg-[#f7fbd8] rounded-md border border-[#dce889]">
+          <h3
+            style={{
+              fontSize: "13px",
+              fontFamily: "monospace",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "#2b380a",
+              fontWeight: 700,
+              marginBottom: "12px",
+            }}
           >
-            KEY RESULTS
-          </span>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {project.keyResults.map((result, idx) => (
-              <li
-                key={idx}
-                className="flex items-start gap-2.5 text-sm text-[#1c1e21]"
-              >
-                <span
-                  style={{
-                    color: "var(--blue)",
-                    marginTop: "2px",
-                    flexShrink: 0,
-                  }}
-                >
-                  <Check size={16} strokeWidth={2.5} />
-                </span>
-                <span>{result}</span>
-              </li>
+            The Solution
+          </h3>
+          <div className="space-y-3">
+            {project.fullSolution.split("\n\n").map((paragraph, idx) => (
+              <p key={idx} style={{ fontSize: "16px", lineHeight: 1.7, color: "#1c210d" }}>
+                {paragraph}
+              </p>
             ))}
-          </ul>
+          </div>
         </div>
 
-        {/* Tools & Disciplines */}
-        <div className="mb-9">
-          <span
-            className="font-mono text-[11px] tracking-wider text-[#606269] uppercase block mb-3 font-semibold"
+        {/* Outcome Section */}
+        <div className="mb-8 p-6 bg-[#f3f5fa] rounded-md border border-[#d7deec]">
+          <h3
+            style={{
+              fontSize: "13px",
+              fontFamily: "monospace",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "#2448ed",
+              fontWeight: 700,
+              marginBottom: "12px",
+            }}
           >
-            TOOLS & DISCIPLINES
-          </span>
-          <div className="flex flex-wrap gap-2">
-            {project.toolsUsed.map((tool, idx) => (
+            The Outcome
+          </h3>
+          <div className="space-y-3">
+            {project.outcome.split("\n\n").map((paragraph, idx) => (
+              <p key={idx} style={{ fontSize: "16px", lineHeight: 1.7, color: "#1c212d" }}>
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </div>
+
+        {/* Disciplines */}
+        <div className="mb-10">
+          <h3
+            style={{
+              fontSize: "13px",
+              fontFamily: "monospace",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "#606269",
+              fontWeight: 700,
+              marginBottom: "14px",
+            }}
+          >
+            Disciplines
+          </h3>
+          <div className="flex flex-wrap gap-2.5">
+            {project.disciplines.map((discipline, idx) => (
               <span
                 key={idx}
-                className="font-mono text-xs px-3.5 py-1.5 rounded-full"
+                className="font-mono text-xs px-4 py-2 rounded-full font-medium"
                 style={{
-                  background: "#eeeee8",
+                  background: "#f0f2ea",
                   color: "#1c1e21",
-                  border: "1px solid #d9dad5",
+                  border: "1px solid #d8dbc8",
                 }}
               >
-                {tool}
+                {discipline}
               </span>
             ))}
           </div>
         </div>
 
-        {/* Modal Action Bar */}
+        {/* Action Bar */}
         <div
           className="pt-6 flex flex-wrap items-center justify-between gap-4"
-          style={{ borderTop: "1px solid #d9dad5" }}
+          style={{ borderTop: "1px solid #e1e3dc" }}
         >
-          <Link
-            href="/contact"
-            className="button"
-            onClick={onClose}
-          >
-            Discuss a Similar Project <ArrowUpRight size={18} />
-          </Link>
           <button
             type="button"
             onClick={onClose}
-            className="text-sm hover:underline cursor-pointer"
-            style={{ color: "#606269" }}
+            className="button"
+            style={{ background: "#1c1e21", color: "#ffffff", border: "1px solid #1c1e21" }}
           >
-            Back to Portfolio
+            <ArrowLeft size={16} /> BACK TO SELECTED PROJECTS
           </button>
+          
+          <Link
+            href="/contact"
+            className="text-link"
+            onClick={onClose}
+            style={{ fontSize: "14.5px", fontWeight: 600 }}
+          >
+            Discuss a similar project <ArrowUpRight size={18} />
+          </Link>
         </div>
       </motion.div>
     </div>
